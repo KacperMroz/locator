@@ -33,9 +33,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (isBackArrow!)
-            _buildBackIconWithLabel(context)
-          else
+          // if (isBackArrow!)
+          //   _buildBackIconWithLabel(context)
+          // else
             Text(
               label!,
               style: AppTextStyles.toolbarLabel(brightness!),
