@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:locator/navigation/navigation.dart';
+import 'package:locator/page/home_page.dart';
 import 'package:locator/theme/app_text_styles.dart';
 
 import '../widgets/buttons/rounded_button.dart';
@@ -49,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: RoundedButton(
-                      onPressed: _onGoToLocationPressed,
+                      onPressed: _onGoToHomePressed,
                       label: 'Kontynuuj',
                     ),
                   ),
@@ -71,5 +69,11 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-  void _onGoToLocationPressed() => GoRouter.of(context).go(Navigation.home);
+  static Route _buildRoute(BuildContext context, Object? params) {
+    return MaterialPageRoute<void>(
+      builder: (BuildContext context) => HomePage(),
+    );
+  }
+
+  void _onGoToHomePressed() => Navigator.restorablePush(context, _buildRoute);
 }

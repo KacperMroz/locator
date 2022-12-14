@@ -49,7 +49,6 @@ class LocatorCubit extends Cubit<LocatorState> {
   ];
 
   void saveLocation() {
-    print('IM HERE');
     FirebaseFirestore.instance.collection('locationWithDate').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
