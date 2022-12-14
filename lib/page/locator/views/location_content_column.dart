@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:locator/page/home_page.dart';
+import 'package:locator/widgets/buttons/rounded_button.dart';
+
+import '../../../app/injection.dart';
+import '../cubit/locator_cubit.dart';
 
 class LocationContentColumn extends StatelessWidget {
   const LocationContentColumn({
@@ -37,7 +42,19 @@ class LocationContentColumn extends StatelessWidget {
         Text('Id: $uuid'),
         Text('Aktywność ruchowa:$motionActivity '),
         Text('Przebyty dystans: $odometer km'),
-        Text('IMEI: $imei')
+        Text('IMEI: $imei'),
+        RoundedButton(
+          label: 'Zmień obszar',
+          onPressed: () {
+            getIt.get<LocatorCubit>().stopService();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ),
+            );
+            getIt.resetLazySingleton<LocatorCubit>();
+          },
+        ),
       ]
           .expand(
             (element) => [

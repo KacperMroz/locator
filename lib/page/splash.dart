@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
       } else {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => BackgroundLocatorPage()
+              builder: (context) => const BackgroundLocatorPage()
           ),
         );
       }
@@ -106,7 +106,7 @@ class _SplashPageState extends State<SplashPage> {
 
   static Route _buildRoute(BuildContext context, Object? params) {
     return MaterialPageRoute<void>(
-      builder: (BuildContext context) => HomePage(),
+      builder: (BuildContext context) => const HomePage(),
     );
   }
 

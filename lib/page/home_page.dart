@@ -17,38 +17,40 @@ class HomePage extends StatefulWidget {
 class _LocationState extends State<HomePage> {
   LocatorCubit _bloc = getIt.get<LocatorCubit>();
 
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LocatorCubit, LocatorState>(
       bloc: _bloc,
       builder: (context, state) {
         return Scaffold(
+            backgroundColor: Colors.grey,
             body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const LocationDropdownButton(),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: RoundedButton(
-                  onPressed: _bloc.state.location == ''
-                      ? _errorSnackBar
-                      : _onGoToLocationPressed,
-                  label: 'Kontynuuj',
-                ),
-              ),
-            ]
-                .expand(
-                  (element) => [
-                    element,
-                    const SizedBox(
-                      height: 15,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const LocationDropdownButton(),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: RoundedButton(
+                      onPressed: _bloc.state.location == ''
+                          ? _errorSnackBar
+                          : _onGoToLocationPressed,
+                      label: 'Kontynuuj',
                     ),
-                  ],
-                )
-                .toList(),
-          ),
-        ));
+                  ),
+                ]
+                    .expand(
+                      (element) => [
+                        element,
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    )
+                    .toList(),
+              ),
+            ));
       },
     );
   }
