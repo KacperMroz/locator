@@ -100,6 +100,11 @@ class LocatorCubit extends Cubit<LocatorState> {
     });
   }
 
+  void stopService(){
+    print('SERVICE STOPPING');
+    bg.BackgroundGeolocation.stop();
+  }
+
   void _onLocation(bg.Location location) {
     String odometerKM = (location.odometer / 1000.0).toStringAsFixed(1);
     int confidence = location.activity.confidence;
