@@ -20,28 +20,28 @@ class LocatorCubit extends Cubit<LocatorState> {
   final Permission _permission = Permission.phone;
 
   List<bg.Geofence> geofences = [
-    bg.Geofence(
-        identifier: 'DOM',
-        radius: 150,
-        latitude: 50.0507085,
-        longitude: 19.9294436,
-        notifyOnEntry: true,
-        notifyOnExit: true,
-        loiteringDelay: 10000),
-    bg.Geofence(
-      identifier: 'DOM2',
-      radius: 150,
-      latitude: 50.6949,
-      longitude: 20.4600,
-      notifyOnEntry: true,
-      notifyOnExit: true,
-      loiteringDelay: 10000,
-    ),
+    // bg.Geofence(
+    //     identifier: 'DOM',
+    //     radius: 150,
+    //     latitude: 50.0507085,
+    //     longitude: 19.9294436,
+    //     notifyOnEntry: true,
+    //     notifyOnExit: true,
+    //     loiteringDelay: 10000),
+    // bg.Geofence(
+    //   identifier: 'DOM2',
+    //   radius: 150,
+    //   latitude: 50.6949,
+    //   longitude: 20.4600,
+    //   notifyOnEntry: true,
+    //   notifyOnExit: true,
+    //   loiteringDelay: 10000,
+    // ),
     bg.Geofence(
       identifier: 'IMPEL',
-      radius: 500,
-      latitude: 51.128075,
-      longitude: 17.045076,
+      radius: 250,
+      latitude: 51.1290565,
+      longitude: 17.0456286,
       notifyOnEntry: true,
       notifyOnExit: true,
       loiteringDelay: 10000,
@@ -50,7 +50,7 @@ class LocatorCubit extends Cubit<LocatorState> {
 
   void saveLocation() {
     print('IM HERE');
-    FirebaseFirestore.instance.collection('locationWithDate').add({
+    FirebaseFirestore.instance.collection('testImpelLocationVol2').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
       'imei': state.imei,

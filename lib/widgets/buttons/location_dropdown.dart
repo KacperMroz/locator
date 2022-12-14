@@ -16,7 +16,7 @@ class LocationDropdownButtonState extends State<LocationDropdownButton> {
   String dropdownValue = '';
 
   final items = [
-    'A.Słonimskiego 1a, Wrocław',
+    'A.Słonimskiego 6, Wrocław',
   ];
 
   @override
