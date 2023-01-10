@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class LocationContentColumn extends StatelessWidget {
   const LocationContentColumn({
