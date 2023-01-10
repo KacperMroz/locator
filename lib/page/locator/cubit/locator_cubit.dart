@@ -33,8 +33,8 @@ class LocatorCubit extends Cubit<LocatorState> {
     // bg.Geofence(
     //   identifier: 'DOM2',
     //   radius: 150,
-    //   latitude: 50.6949,
-    //   longitude: 20.4600,
+    //   latitude: 50.043792,
+    //   longitude: 19.930577,
     //   notifyOnEntry: true,
     //   notifyOnExit: true,
     //   loiteringDelay: 10000,
@@ -51,9 +51,8 @@ class LocatorCubit extends Cubit<LocatorState> {
   ];
 
   void saveLocation() {
-    FirebaseFirestore.instance.collection('Slonimskiego 6').add({
     print('IM HERE');
-    FirebaseFirestore.instance.collection('Slonimskiego 6-entry').add({
+    FirebaseFirestore.instance.collection('Słonimskiego 6-entry').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
       'activity': 'entering',
@@ -64,7 +63,7 @@ class LocatorCubit extends Cubit<LocatorState> {
 
   void saveLocationWhenLeaving() {
     print('IM HERE');
-    FirebaseFirestore.instance.collection('Slonimskiego 6-exit').add({
+    FirebaseFirestore.instance.collection('Słonimskiego 6-exit').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
       'activity': 'leaving',
@@ -116,11 +115,6 @@ class LocatorCubit extends Cubit<LocatorState> {
     });
   }
 
-  void stopService(){
-    print('SERVICE STOPPING');
-    bg.BackgroundGeolocation.stop();
-  }
-
   void _onLocation(bg.Location location) {
     String odometerKM = (location.odometer / 1000.0).toStringAsFixed(1);
     int confidence = location.activity.confidence;
@@ -169,6 +163,11 @@ class LocatorCubit extends Cubit<LocatorState> {
       status: LocatorStatus.success,
       content: encoder.convert(event.toMap()),
     ));
+  }
+
+  void stopService() {
+    print('SERVICE STOPPING');
+    bg.BackgroundGeolocation.stop();
   }
 
   void _onConnectivityChange(bg.ConnectivityChangeEvent event) {
