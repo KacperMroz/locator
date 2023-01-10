@@ -6,8 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_information/device_information.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 part 'locator_state.dart';
@@ -50,10 +52,24 @@ class LocatorCubit extends Cubit<LocatorState> {
 
   void saveLocation() {
     FirebaseFirestore.instance.collection('Slonimskiego 6').add({
+    print('IM HERE');
+    FirebaseFirestore.instance.collection('Slonimskiego 6-entry').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
+      'activity': 'entering',
       'imei': state.imei,
-      'date': DateTime.now().toLocal().toString()
+      'date': DateFormat('yyyy-MM-dd – HH:mm').format(DateTime.now()),
+    });
+  }
+
+  void saveLocationWhenLeaving() {
+    print('IM HERE');
+    FirebaseFirestore.instance.collection('Slonimskiego 6-exit').add({
+      'latitude': state.latitude,
+      'longitude': state.longitude,
+      'activity': 'leaving',
+      'imei': state.imei,
+      'date': DateFormat('yyyy-MM-dd – HH:mm').format(DateTime.now()),
     });
   }
 
@@ -176,6 +192,7 @@ class LocatorCubit extends Cubit<LocatorState> {
       ));
     }
     if (event.action == 'EXIT') {
+      saveLocationWhenLeaving();
       emit(state.copyWith(
         status: LocatorStatus.success,
         isInSpecificArea: false,
