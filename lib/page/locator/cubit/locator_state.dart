@@ -9,7 +9,7 @@ enum LocatorStatus {
 
 class LocatorState extends Equatable {
   const LocatorState({
-    this.status = LocatorStatus.initial,
+    this.status = LocatorStatus.loading,
     String? motionActivity,
     String? odometer,
     String? content,

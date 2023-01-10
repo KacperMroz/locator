@@ -51,6 +51,7 @@ class LocatorCubit extends Cubit<LocatorState> {
   ];
 
   void saveLocation() {
+    FirebaseFirestore.instance.collection('Slonimskiego 6').add({
     print('IM HERE');
     FirebaseFirestore.instance.collection('Slonimskiego 6-entry').add({
       'latitude': state.latitude,
@@ -113,6 +114,11 @@ class LocatorCubit extends Cubit<LocatorState> {
     }).catchError((error) {
       debugPrint('[ready] ERROR: $error');
     });
+  }
+
+  void stopService(){
+    print('SERVICE STOPPING');
+    bg.BackgroundGeolocation.stop();
   }
 
   void _onLocation(bg.Location location) {

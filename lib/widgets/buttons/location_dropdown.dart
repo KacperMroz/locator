@@ -33,7 +33,7 @@ class LocationDropdownButtonState extends State<LocationDropdownButton> {
           iconSize: 25,
           isExpanded: true,
           hint: Text(
-            'Wybierz placówkę',
+            'Wybierz obszar',
             style: AppTextStyles.chooseRegion(),
           ),
           decoration: const InputDecoration(
