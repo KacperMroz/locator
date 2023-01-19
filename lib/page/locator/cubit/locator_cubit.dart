@@ -52,21 +52,21 @@ class LocatorCubit extends Cubit<LocatorState> {
 
   void saveLocation() {
     print('IM HERE');
-    FirebaseFirestore.instance.collection('Słonimskiego 6-entry').add({
+    FirebaseFirestore.instance.collection('timer test').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
-      'activity': 'entering',
+      'activity': '10m',
       'imei': state.imei,
       'date': DateFormat('yyyy-MM-dd – HH:mm').format(DateTime.now()),
     });
   }
 
-  void saveLocationWhenLeaving() {
+  void saveLocationWhenInitial() {
     print('IM HERE');
-    FirebaseFirestore.instance.collection('Słonimskiego 6-exit').add({
+    FirebaseFirestore.instance.collection('timer test').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
-      'activity': 'leaving',
+      'activity': 'initial',
       'imei': state.imei,
       'date': DateFormat('yyyy-MM-dd – HH:mm').format(DateTime.now()),
     });
@@ -92,6 +92,7 @@ class LocatorCubit extends Cubit<LocatorState> {
     });
     bg.BackgroundGeolocation.onProviderChange(_onProviderChange);
     bg.BackgroundGeolocation.onConnectivityChange(_onConnectivityChange);
+    // bg.BackgroundGeolocation.onHeartbeat(_onHeartbeat);
 
     bg.BackgroundGeolocation.ready(
       bg.Config(
@@ -101,17 +102,51 @@ class LocatorCubit extends Cubit<LocatorState> {
         ),
         reset: true,
         debug: false,
-        logLevel: bg.Config.LOG_LEVEL_ERROR,
+        logLevel: bg.Config.LOG_LEVEL_DEBUG,
         desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
         distanceFilter: 5.0,
         stopOnTerminate: false,
         startOnBoot: true,
         enableHeadless: true,
+        heartbeatInterval: 600,
       ),
     ).then((bg.State state) {
       bg.BackgroundGeolocation.start();
     }).catchError((error) {
       debugPrint('[ready] ERROR: $error');
+    });
+
+    bg.Location location = await bg.BackgroundGeolocation.getCurrentPosition();
+    double lat = location.coords.latitude;
+    double lng = location.coords.longitude;
+    double speed = location.coords.speed;
+    String uuid = location.uuid;
+    emit(state.copyWith(
+      status: LocatorStatus.success,
+      content: encoder.convert(location.toMap()),
+      latitude: lat,
+      longitude: lng,
+      speed: speed,
+      uuid: uuid,
+    ));
+    print('INITIAL POSITION: ${state.longitude}, ${state.latitude}');
+    saveLocationWhenInitial();
+    Timer.periodic(const Duration(seconds: 590), (timer) async {
+      bg.Location location = await bg.BackgroundGeolocation.getCurrentPosition();
+      double lat = location.coords.latitude;
+      double lng = location.coords.longitude;
+      double speed = location.coords.speed;
+      String uuid = location.uuid;
+      emit(state.copyWith(
+        status: LocatorStatus.success,
+        content: encoder.convert(location.toMap()),
+        latitude: lat,
+        longitude: lng,
+        speed: speed,
+        uuid: uuid,
+      ));
+      saveLocation();
+      print('TIMER!!!!!!!!');
     });
   }
 
@@ -134,8 +169,28 @@ class LocatorCubit extends Cubit<LocatorState> {
     ));
   }
 
+  // Future<void> _onHeartbeat(bg.HeartbeatEvent event) async {
+  //   print('[onHeartbeat] ${event}');
+  //   // bg.Location location = await bg.BackgroundGeolocation.getCurrentPosition();
+  //   // double lat = location.coords.latitude;
+  //   // double lng = location.coords.longitude;
+  //   // double speed = location.coords.speed;
+  //   // String uuid = location.uuid;
+  //   // emit(state.copyWith(
+  //   //   status: LocatorStatus.success,
+  //   //   content: encoder.convert(location.toMap()),
+  //   //   latitude: lat,
+  //   //   longitude: lng,
+  //   //   speed: speed,
+  //   //   uuid: uuid,
+  //   // ));
+  //   print('HEARTBEAT@@@@@@@@@@@@@@');
+  //   var date = DateFormat('yyyy-MM-dd – HH:mm').format(DateTime.now());
+  //   print(date);
+  //   saveLocation();
+  // }
+
   Future<void> _onGetDeviceInfo() async {
-    emit(state.copyWith(status: LocatorStatus.loading));
     String imei;
     var imeiNo = await DeviceInformation.deviceIMEINumber;
     imei = imeiNo.toString();
@@ -183,21 +238,21 @@ class LocatorCubit extends Cubit<LocatorState> {
   }
 
   void _onGeofence(bg.GeofenceEvent event) {
-    if (event.action == 'ENTER') {
-      saveLocation();
-      emit(state.copyWith(
-        status: LocatorStatus.success,
-        isInSpecificArea: true,
-      ));
-    }
-    if (event.action == 'EXIT') {
-      saveLocationWhenLeaving();
-      emit(state.copyWith(
-        status: LocatorStatus.success,
-        isInSpecificArea: false,
-      ));
-    }
-    if (event.action == 'DWELL') {}
+    // if (event.action == 'ENTER') {
+    //   saveLocation();
+    //   emit(state.copyWith(
+    //     status: LocatorStatus.success,
+    //     isInSpecificArea: true,
+    //   ));
+    // }
+    // if (event.action == 'EXIT') {
+    //   saveLocationWhenLeaving();
+    //   emit(state.copyWith(
+    //     status: LocatorStatus.success,
+    //     isInSpecificArea: false,
+    //   ));
+    // }
+    // if (event.action == 'DWELL') {}
   }
 
   Future<void> requestPermission(Permission permission) async {
