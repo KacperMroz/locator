@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:locator/page/home_page.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 import 'package:locator/page/locator/views/background_locator_page.dart';
 import 'package:locator/theme/app_text_styles.dart';
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
+
 import '../widgets/buttons/rounded_button.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
-
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -33,13 +33,11 @@ class _SplashPageState extends State<SplashPage> {
         enableHeadless: true,
       ),
     ).then((bg.State state) {
-      if(!state.enabled){
-        _onGoToHomePressed;
+      if (!state.enabled) {
       } else {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => const BackgroundLocatorPage()
-          ),
+              builder: (context) => const BackgroundLocatorPage()),
         );
       }
     }).catchError((error) {
@@ -82,7 +80,7 @@ class _SplashPageState extends State<SplashPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: RoundedButton(
-                      onPressed: _onGoToHomePressed,
+                      onPressed: _onGoToLocationPressed,
                       label: 'Kontynuuj',
                     ),
                   ),
@@ -106,9 +104,10 @@ class _SplashPageState extends State<SplashPage> {
 
   static Route _buildRoute(BuildContext context, Object? params) {
     return MaterialPageRoute<void>(
-      builder: (BuildContext context) => const HomePage(),
+      builder: (BuildContext context) => const BackgroundLocatorPage(),
     );
   }
 
-  void _onGoToHomePressed() => Navigator.restorablePush(context, _buildRoute);
+  void _onGoToLocationPressed() =>
+      Navigator.restorablePush(context, _buildRoute);
 }

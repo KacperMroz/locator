@@ -4,7 +4,6 @@ import 'package:locator/widgets/buttons/rounded_button.dart';
 
 import '../../../app/injection.dart';
 import '../cubit/locator_cubit.dart';
-import 'package:intl/intl.dart';
 
 class LocationContentColumn extends StatelessWidget {
   const LocationContentColumn({
@@ -45,7 +44,7 @@ class LocationContentColumn extends StatelessWidget {
         Text('Przebyty dystans: $odometer km'),
         Text('IMEI: $imei'),
         RoundedButton(
-          label: 'Zmień obszar',
+          label: 'Zgłoś',
           onPressed: () {
             getIt.get<LocatorCubit>().stopService();
             Navigator.of(context).push(
