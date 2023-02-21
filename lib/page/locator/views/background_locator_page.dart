@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:locator/page/locator/cubit/locator_cubit.dart';
 import 'package:locator/page/locator/views/background_locator_view.dart';
 
 import '../../../theme/app_colors.dart';
@@ -12,22 +10,19 @@ class BackgroundLocatorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LocatorCubit()..initialize(),
-      child: MaterialApp(
-        home: Scaffold(
-          body: GradientBackgroundView(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Scaffold(
-                backgroundColor: AppColors.transparent,
-                appBar: CustomAppBar(
-                  label: 'Lokalizator',
-                  brightness: 'dark',
-                  onBackPressed: () {},
-                  isMenuNeeded: false,
-                ),
-                body: const BackgroundLocatorView()),
-          ),
+    return MaterialApp(
+      home: Scaffold(
+        body: GradientBackgroundView(
+          height: MediaQuery.of(context).size.height * 0.3,
+          child: Scaffold(
+              backgroundColor: AppColors.transparent,
+              appBar: CustomAppBar(
+                label: 'Lokalizator',
+                brightness: 'dark',
+                onBackPressed: () {},
+                isMenuNeeded: false,
+              ),
+              body: const BackgroundLocatorView()),
         ),
       ),
     );

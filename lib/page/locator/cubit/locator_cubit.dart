@@ -10,16 +10,18 @@ import 'package:flutter_background_geolocation/flutter_background_geolocation.da
     as bg;
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
+import 'package:locator/page/locator/usecase/post_location_usecase.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 part 'locator_state.dart';
 
 @lazySingleton
 class LocatorCubit extends Cubit<LocatorState> {
-  LocatorCubit() : super(const LocatorState());
+  LocatorCubit(this._postLocationUseCase) : super(const LocatorState());
 
   JsonEncoder encoder = const JsonEncoder.withIndent("     ");
   final Permission _permission = Permission.phone;
+  final PostLocationUseCase _postLocationUseCase;
 
   List<bg.Geofence> geofences = [
     // bg.Geofence(
@@ -52,6 +54,12 @@ class LocatorCubit extends Cubit<LocatorState> {
 
   void saveLocation() {
     print('IM HERE');
+    //TODO UNCOMMENT WHEN BE IS READY
+    // _postLocationUseCase(
+    //   imei: state.imei,
+    //   id: state.id,
+    //   status: state.status,
+    // );
     FirebaseFirestore.instance.collection('Słonimskiego 6-entry').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
@@ -63,6 +71,12 @@ class LocatorCubit extends Cubit<LocatorState> {
 
   void saveLocationWhenLeaving() {
     print('IM HERE');
+    //TODO UNCOMMENT WHEN BE IS READY
+    // _postLocationUseCase(
+    //   imei: state.imei,
+    //   id: state.id,
+    //   status: state.status,
+    // );
     FirebaseFirestore.instance.collection('Słonimskiego 6-exit').add({
       'latitude': state.latitude,
       'longitude': state.longitude,
