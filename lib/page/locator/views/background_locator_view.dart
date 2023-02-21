@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:locator/app/injection.dart';
 import 'package:locator/page/locator/cubit/locator_cubit.dart';
 import 'package:locator/theme/app_colors.dart';
 
@@ -13,9 +14,18 @@ class BackgroundLocatorView extends StatefulWidget {
 }
 
 class _BackgroundLocatorViewState extends State<BackgroundLocatorView> {
+  final LocatorCubit _cubit = getIt.get<LocatorCubit>();
+
+  @override
+  void initState() {
+    _cubit.initialize();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LocatorCubit, LocatorState>(
+      bloc: _cubit,
       builder: (context, state) {
         return Container(
           width: double.infinity,
@@ -58,5 +68,11 @@ class _BackgroundLocatorViewState extends State<BackgroundLocatorView> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _cubit.close();
+    super.dispose();
   }
 }
